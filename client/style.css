@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    /* height: 100vh; */
+    flex-direction: row;
+}
+
+.backlog {
+    background-color: blue;
+}
+
+.todo {
+    background-color: red;
+}
+
+.process {
+    background-color: pink;
+}
+
+.done {
+    background-color: green;
+}
