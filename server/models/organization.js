@@ -11,11 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Organization.hasMany(models.Task)
       Organization.hasMany(models.User)
     }
   };
   Organization.init({
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      unique: {
+        msg: "organization is already available"
+      }
+    }
   }, {
     sequelize,
     modelName: 'Organization',

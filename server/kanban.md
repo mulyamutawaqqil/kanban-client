@@ -7,12 +7,14 @@ Kanban App is an app for scheduling and controlling your organization activities
 POST /register
 POST /login
 POST /tasks
-POST /organizations
 GET /tasks
 GET /tasks/:id
 PUT /tasks/:id
 PATCH /tasks/:id
 DELETE /tasks/:id
+POST /organizations
+GET /organizations
+PATCH /organizations/:id
 
 
 
@@ -90,98 +92,7 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### PATCH /users/:id
-
-> Update user organization by id
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-_Request Params_
-```
-{ id: integer}
-```
-
-_Request Body_
-```
-{
-  "OrganizationId": "<OrganizationId to get insert into>"
-}
-```
-
-_Response (200 - OK)_
-```
-  {
-    "id": <given id by system>,
-    "email": "<posted email>",
-    "password": "<posted password>"
-  }
-```
-_Response (400 - Bad Request)_
-```
-{
-  Validation Error
-}
-```
-
-_Response (500 - Internal Server Error)_
-```
-{
-  "message": "internal server error"
-}
-```
-
-
 ### POST /tasks
-
-> Create new task
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-
-_Request Body_
-```
-{
-  "name": string,
-  "status": string,
-  "UserId": integer,
-  "email": string,
-  "OrganizationId": integer
-}
-```
-
-_Response (201 - Created)_
-```
-{
-  "id": <given id by system>,
-  "name": "<posted name>",
-  "status": "<posted status>",
-  "email": "<posted email>",
-  "updatedAt": "<new Date()>"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  Validation error
-}
-```
-
-_Response (500 - Internal Server Error)_
-```
-{
-  "message": "internal server error"
-}
-```
-### POST /organizations
 
 > Create new task
 
@@ -199,11 +110,20 @@ _Request Body_
 }
 ```
 
+_Request User_
+```
+{
+  "UserId": integer,
+  "email": string,
+  "OrganizationId" : integer
+}
+```
+
 _Response (201 - Created)_
 ```
 {
-  "id": <given id by system>,
-  "name": "<posted name>"
+  "name": "<posted name>",
+  "status": "<posted status>"
 }
 ```
 
@@ -241,10 +161,10 @@ _Response (200 - OK)_
 ```
 [
     {
-        "id": <given id by system>,
         "name": "<posted name>",
         "status": "<posted status>",
         "email": "<posted email>",
+        "organization": "<posted organization>",
         "updatedAt": "<new Date()>"
     }
 ]
@@ -281,13 +201,11 @@ not needed
 _Response (200 - OK)_
 ```
   {
-    {
-    "id": <given id by system>,
-    "name": "<posted name>",
-    "status": "<posted status>",
-    "email": "<posted email>",
-    "updatedAt": "<new Date()>"
-    }
+      "name": "<posted name>",
+      "status": "<posted status>",
+      "email": "<posted email>",
+      "organization": "<posted organization>",
+      "updatedAt": "<new Date()>"
   }
 ```
 
@@ -318,22 +236,14 @@ _Request Params_
 _Request Body_
 ```
 {
-  "name": string,
-  "status": string,
-  "UserId": integer,
-  "email": string,
-  "OrganizationId": integer
+  "name": string
 }
 ```
 
 _Response (200 - OK)_
 ```
   {
-    "id": <given id by system>,
-    "name": "<posted name>",
-    "status": "<posted status>",
-    "email": "<posted email>",
-    "updatedAt": "<new Date()>"
+    "message": "edit successfull"
   }
 ```
 _Response (400 - Bad Request)_
@@ -376,11 +286,7 @@ _Request Body_
 _Response (200 - OK)_
 ```
   {
-    "id": <given id by system>,
-    "name": "<posted name>",
-    "status": "<posted status>",
-    "email": "<posted email>",
-    "updatedAt": "<new Date()>"
+    "message": "update status successfull"
   }
 ```
 _Response (400 - Bad Request)_
@@ -421,7 +327,7 @@ not needed
 _Response (200 - OK)_
 ```
   {
-    message : "task success to delete"
+    message : "Task success to delete"
   }
 ```
 _Response (404 - Not Found)_
@@ -433,7 +339,128 @@ _Response (404 - Not Found)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "Invalid request"
+  "message": "internal server error"
+}
+```
+
+### POST /organizations
+
+> Create new task
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+  "name": string
+}
+```
+
+_Response (201 - Created)_
+```
+{
+  "id": <given id by system>,
+  "name": "<posted name>"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  Validation error
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "internal server error"
+}
+```
+
+### GET /organizations/:id
+
+> Get all organizations
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+_Request Body_
+```
+not needed
+```
+
+
+_Response (200 - OK)_
+```
+  {
+    "id": <given id by system>,
+    "name": "<posted name>"
+  }
+```
+_Response (400 - Bad Request)_
+```
+{
+  Validation Error
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "internal server error"
+}
+```
+
+
+### PATCH /organizations/:id
+
+> Update user organization by id
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+_Request Params_
+```
+{ id: integer}
+```
+
+_Request User_
+```
+{
+  "UserId": "<UserId to get insert into>"
+}
+```
+
+_Response (200 - OK)_
+```
+  {
+    "id": <given id by system>,
+    "email": "<posted email>"
+  }
+```
+_Response (400 - Bad Request)_
+```
+{
+  Validation Error
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "internal server error"
 }
 ```
 

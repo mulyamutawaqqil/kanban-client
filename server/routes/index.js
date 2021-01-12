@@ -6,7 +6,7 @@ const {authentication} = require("../middlewares/auth")
 
 router.use(user)
 router.use(authentication)
-router.use(organization)
-router.use(task)
+router.use("/organization", organization)
+router.use("/task", task)
 
 module.exports = router
