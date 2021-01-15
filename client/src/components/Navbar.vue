@@ -22,10 +22,9 @@
 <script>
 export default {
   name: "Navbar",
-  props: ['page'],
   methods: {
     signout() {
-      this.$emit('signout')
+      this.$emit('signout')      
     }
   }
 

@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Task.belongsTo(models.User)
-      Task.belongsTo(models.Organization)
     }
   };
   Task.init({
@@ -25,13 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         key: "id"
       }
     },
-    OrganizationId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Organization",
-        key: "id"
-      }
-    }
+    organization: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Task',

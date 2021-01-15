@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Task)
-      User.belongsTo(models.Organization)
     }
   };
   User.init({
@@ -39,13 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    OrganizationId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Organization",
-        key: "id"
-      }
-    }
+    organization: DataTypes.STRING,
   }, {
     hooks: {
       beforeCreate(instance, option) {

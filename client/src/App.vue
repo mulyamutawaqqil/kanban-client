@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar v-bind:page='page' v-on:signout='signout'> </Navbar>
+    <Navbar v-bind:page='page' v-on:signout='signout' v-if="page==='home'"> </Navbar>
     <LoginForm v-if="page==='login'" v-on:changePage='changePage'> </LoginForm>
     <RegisterForm v-if="page==='register'" v-on:changePage='changePage'> </RegisterForm>
     <Home v-if="page==='home'" 
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import Navbar from './components/Navbar.vue';
 import LoginForm from './components/LoginForm.vue';
 import RegisterForm from './components/RegisterForm.vue';
@@ -69,7 +70,7 @@ export default {
         this.backlogs = response.data
       })
       .catch(err => {
-        console.log(err)
+        console.log(err.response.data.message)
       });
     },
     fetchTodos() {
@@ -82,7 +83,7 @@ export default {
         this.todos = response.data
       })
       .catch(err => {
-        console.log(err)
+        console.log(err.response.data.message)
       });
     },
     fetchDoing() {
@@ -95,7 +96,7 @@ export default {
         this.doingItems = response.data
       })
       .catch(err => {
-        console.log(err)
+        console.log(err.response.data.message)
       });
     },
     fetchDone() {
@@ -108,7 +109,7 @@ export default {
         this.doneItems = response.data
       })
       .catch(err => {
-        console.log(err)
+        console.log(err.response.data.message)
       });
     },
     addTask(task) {
@@ -124,7 +125,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err.message)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     todo(id) {
@@ -138,7 +143,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err.message)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     getDoing(id) {
@@ -152,7 +161,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err.message)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     getDone(id) {
@@ -166,7 +179,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err.message)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     deleteTask(id) {
@@ -179,7 +196,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err.message)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     editTask({task, id}) {
@@ -193,7 +214,11 @@ export default {
         this.homepage()
       })
       .catch(err => {
-        console.log(err)
+        Swal.fire({
+        title: 'Error!',
+        text: err.response.data.message,
+        icon: 'error'
+      })
       });
     },
     signout() {
@@ -203,9 +228,9 @@ export default {
   },
   created() {
     if (!localStorage.access_token) {
-      this.page = 'login'
+      this.changePage('login')
     } else {
-      this.page = 'home'
+      this.changePage('home')
       this.homepage()
     }
   }

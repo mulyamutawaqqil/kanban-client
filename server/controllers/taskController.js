@@ -1,31 +1,26 @@
-const {Task, User, Organization} = require("../models")
+const {Task, User} = require("../models")
 const convertTime = require("../helpers/convertTime")
 const {checkToken} = require("../helpers/jwt")
 
 class taskController {
     static createTask(req, res, next) {
         let payload = checkToken(req.headers.access_token)
-        if (!payload.OrganizationId) {
-            next({message: "please add your organization first"})
-        } else {
-            const name = req.body.name
-            const UserId = payload.id
-            const status = 'backlog'
-            const {email, OrganizationId} = payload
-            Task.create({name, status, UserId, email, OrganizationId})
-            .then(task => {
-                const {name, status} = task
-                return res.status(201).json({name, status})})
-            .catch(err => {
-                console.log(err.message)
-            })
-        }
+        const name = req.body.name
+        const UserId = payload.id
+        const status = 'backlog'
+        const {email, organization} = payload
+        Task.create({name, status, UserId, email, organization})
+        .then(task => {
+            const {name, status} = task
+            return res.status(201).json({name, status})})
+        .catch(err => {
+            next(err)
+        })
     }
 
     static showTasks(req, res, next) {
         const status = req.query.q
-        console.log(status)
-        Task.findAll({include: [User, Organization], where: {status}})
+        Task.findAll({include: [User], where: {status}})
         .then(tasks => {
             const output = tasks.map(el => {
                 return {
@@ -33,7 +28,7 @@ class taskController {
                     name: el.name,
                     status: el.status,
                     email: el.User.email,
-                    organization: el.Organization.name,
+                    organization: el.organization,
                     update: convertTime(el.updatedAt)
                 }
             })
@@ -42,14 +37,14 @@ class taskController {
     }
 
     static showTask(req, res, next) {
-        Task.findByPk(+req.params.id, {include: [User, Organization]})
+        Task.findByPk(+req.params.id, {include: [User]})
         .then(task => {
             if (task) {
                 const output = {
                         name: task.name,
                         status: task.status,
                         email: task.User.email,
-                        organization: task.Organization.name,
+                        organization: task.organization,
                         update: convertTime(task.updatedAt)
                     }
                 res.status(200).json(output)

@@ -17,8 +17,8 @@ module.exports = {
       UserId: {
         type: Sequelize.INTEGER,
       },
-      OrganizationId: {
-        type: Sequelize.INTEGER,
+      organization: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
