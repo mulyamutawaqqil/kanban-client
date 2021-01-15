@@ -47,7 +47,7 @@ export default {
       const {email, password, organization} = this
       axios({
         method: 'post',
-        url: `http://localhost:3000/register`,
+        url: `https://kanban-digital.herokuapp.com/register`,
         data: {email, password, organization}
       })
       .then(response => {
@@ -76,7 +76,7 @@ export default {
           console.log(GoogleUser)
           axios({
               method: 'post',
-              url: `http://localhost:3000/loginGoogle`,
+              url: `https://kanban-digital.herokuapp.com/loginGoogle`,
               data:{
                   id_token: GoogleUser.Bc.id_token
               }

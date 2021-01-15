@@ -40,7 +40,7 @@ export default {
     },
   data() {
     return {
-      baseUrl: 'http://localhost:3000',
+      baseUrl: 'https://kanban-digital.herokuapp.com',
       page: 'login',
       backlogs: [],
       todos: [],
