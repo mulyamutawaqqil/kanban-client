@@ -8,6 +8,7 @@ const port = 3000
 const router = require("./routes/index")
 const errorHandlers = require("./middlewares/errorHandlers")
 
+app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(router)

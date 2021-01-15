@@ -1,30 +1,35 @@
 const {Task, User, Organization} = require("../models")
 const convertTime = require("../helpers/convertTime")
+const {checkToken} = require("../helpers/jwt")
 
 class taskController {
     static createTask(req, res, next) {
-        if (!req.user.OrganizationId) {
+        let payload = checkToken(req.headers.access_token)
+        if (!payload.OrganizationId) {
             next({message: "please add your organization first"})
         } else {
             const name = req.body.name
-            const UserId = req.user.id
+            const UserId = payload.id
             const status = 'backlog'
-            const {email, OrganizationId} = req.user
+            const {email, OrganizationId} = payload
             Task.create({name, status, UserId, email, OrganizationId})
             .then(task => {
                 const {name, status} = task
                 return res.status(201).json({name, status})})
             .catch(err => {
-                next(err)
+                console.log(err.message)
             })
         }
     }
 
     static showTasks(req, res, next) {
-        Task.findAll({include: [User, Organization]})
+        const status = req.query.q
+        console.log(status)
+        Task.findAll({include: [User, Organization], where: {status}})
         .then(tasks => {
             const output = tasks.map(el => {
                 return {
+                    id: el.id,
                     name: el.name,
                     status: el.status,
                     email: el.User.email,

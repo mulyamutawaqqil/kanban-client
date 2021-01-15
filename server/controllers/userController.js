@@ -23,13 +23,12 @@ class userController{
                 next({name: "Email/Password Invalid"})
             } else {
                 let match = comparePassword(password, user.password)
-                console.log(match)
                 if (!match) {
                     next({name: "Email/Password Invalid"})
                 } else {
-                    const {id, email} = user
-                    const access_token = generateToken({id, email})
-                    res.status(200).json({access_token, id})
+                    const {id, email, OrganizationId} = user
+                    const access_token = generateToken({id, email, OrganizationId})
+                    res.status(200).json({access_token})
                 }
             }
         })

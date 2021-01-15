@@ -19,13 +19,13 @@ function authentication(req, res, next) {
 }
 
 function authorization(req, res, next) {
-    const UserId = req.user.id
+    const authParams = checkToken(req.headers.access_token)
     Task.findByPk(+req.params.id)
     .then(Task => {
         if (!Task) {
             next({name: 'requestNotFound'})
         } else {
-            if (Task.UserId === UserId) {
+            if (Task.UserId === authParams.id) {
                 next()
             } else {
                 next({name: 'accessDenied'})
