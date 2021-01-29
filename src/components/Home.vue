@@ -3,53 +3,30 @@
     <h3 class="font-weight-light text-black">Manage tasks and workflows visually with Kanban Board!</h3>
     <ModalCreate v-on:addTask='addTask'></ModalCreate><br>
     <!-- Kanban Board -->
-    <div class="row" id="kanban">
-      <!-- backlog -->
-        <Backlog v-bind:backlogs="backlogs"
-        v-on:deleteTask='deleteTask'
-        v-on:editTask='editTask'
-        v-on:todo='todo'
-        ></Backlog>
-        <!-- -->
-        <!-- Todo -->
-        <Todo v-bind:todos="todos"
-        v-on:deleteTask='deleteTask'
-        v-on:editTask='editTask'
-        v-on:getDoing='getDoing'
-        ></Todo>
-        <!-- -->
-        <!-- Doing -->
-        <Doing v-bind:doingItems="doingItems"
-        v-on:deleteTask='deleteTask'
-        v-on:editTask='editTask'
-        v-on:getDone='getDone'
-        ></Doing>
-        <!-- -->
-        <!-- Done -->
-        <Done v-bind:doneItems="doneItems"
-        v-on:deleteTask='deleteTask'></Done>
-        <!-- -->
-      </div>
-    </div>
+    <KanbanBoard 
+    v-bind:backlogs="backlogs"
+    v-on:deleteTask='deleteTask'
+    v-on:editTask='editTask'
+    v-on:todo='todo'
+    v-bind:todos="todos"
+    v-on:getDoing='getDoing'
+    v-bind:doingItems="doingItems"
+    v-on:getDone='getDone'
+    v-bind:doneItems="doneItems"
+    />
     <!-- -->
 </template>
 
 <script>
 import ModalCreate from './ModalCreate'
-import Backlog from './Backlog'
-import Todo from './Todo'
-import Doing from './Doing'
-import Done from './Done'
+import KanbanBoard from './KanbanBoard'
 
 export default {
   name: "Home",
   props: ['backlogs', 'todos', 'doingItems', 'doneItems'],
   components: {
     ModalCreate,
-    Backlog,
-    Todo,
-    Doing,
-    Done
+    KanbanBoard
   },
   methods: {
     deleteTask(id) {
